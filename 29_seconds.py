@@ -1,4 +1,5 @@
 from flask import Flask, render_template, abort, url_for, jsonify, request, redirect
+from model import load_db
 
 app = Flask(__name__)
 
