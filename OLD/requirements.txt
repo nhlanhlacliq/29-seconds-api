@@ -1,0 +1,10 @@
+Flask==1.1.2
+matplotlib
+# time 
+# os
+nltk
+wordcloud
+# random 
+# string
+# fastapi
+# hypercorn
