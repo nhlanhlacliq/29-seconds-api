@@ -9,6 +9,7 @@ trouble. Instead, use a real database layer, like
 https://flask-sqlalchemy.palletsprojects.com/.
 """
 import json
+from random import randint
 
 def db(category, difficulty):
     # get category, question, answer 
@@ -25,13 +26,17 @@ def QnA(category):
 def load_db(category, difficulty):
     with open(f'{category}_db.json') as f:
         # lst = [item for item in f]
-        print(f[0])
-        return json.load(f)
+        data = json.load(f)
+        random = randint(0,len(data)-1)
+        data = data[random]
+        generate_image(data['question'])
+        return data
 
 # def save_db():
 #     with open('flashcards_db.json', 'w') as f:
 #         return json.dump(db, f)
 
+def generate_image(question):
 
 
 
