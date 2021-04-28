@@ -7,7 +7,7 @@ app = Flask(__name__)
 def index():
     return redirect(url_for('api'))
 
-categories = ['anime', 'books']
+categories = ['anime']
 @app.route('/api', methods=['GET', 'POST'])
 def api():
     if request.method == 'POST':
