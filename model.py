@@ -35,49 +35,39 @@ def load_db(category, difficulty):
         data = json.load(f)
         random = randint(0,len(data)-1)
         data = data[random]
-        # generate_image(data['question'])
+        # generate_image(data['question'], category, difficulty)
         return data
 
 # def save_db():
 #     with open('flashcards_db.json', 'w') as f:
 #         return json.dump(db, f)
 
-"""Generates and shows a wordcloud from a chosen category. 
-  The summary contains the synopsis which the WC is generated from"""
-def generate_image(question):
-    # get time limit and difficulty level from difficulty object
-    time_limit = difficulty_object.get_time_limit()
-    difficulty_level = difficulty_object.get_difficulty()
-
-    # get category and summary from summary object
-    category = summary_object.get_category()
-    summary = summary_object.get_summary()
+# Generates and stores a wordcloud from question
+def generate_image(question, category, difficulty):
 
     # stop words ("and", "the", "we", etc.)
-    stops = set(stopwords.words('english')) #Set used for speed
-    more_stops= STOPWORDS
+    stopwords= STOPWORDS
 
     # will need this for plotting too
-    # Make list of words in the summary. dont add word if its a stop word..
-    words_in_summary = [word for word in word_tokenize(summary) if ((word not in stops) and (word not in more_stops))]
-    words_freq_dist = FreqDist(words_in_summary)
+    # Make list of words in the question. dont add word if its a stop word..
+    words_in_question = [word for word in word_tokenize(question) if word not in stopwords]
+    words_freq_dist = FreqDist(words_in_question)
 
     # remove x = {difficulty level} most repeated words, add to clues list
     # clues not yet working.. returns int of word counts instead of actual word
     clues = []
-    for i in range(difficulty_level):
+    for i in range(difficulty):
       clue = words_freq_dist.pop(words_freq_dist.max())
       clues.append(clue)
       
-    # print(f"These would be the clues {clues}")
     # adjusted summary is summary without x most repeated words 
-    adjusted_summary = ''
+    adjusted_question = ''
     for word in words_freq_dist.keys():
-      adjusted_summary += word + ' '
-    # generate wordcloud from adjusted summary
+      adjusted_question += word + ' '
+    # generate wordcloud from adjusted question
     wc_rand_state = random.randint(7, 9)
     wc = WordCloud(max_words=500,relative_scaling=0.5,
-                  background_color='black',stopwords=more_stops,
+                  background_color='black',stopwords=stopwords,
                   margin=2,random_state=wc_rand_state,contour_width=0.5,
                   contour_color='white', colormap='Accent')
     wc.generate(adjusted_summary)
