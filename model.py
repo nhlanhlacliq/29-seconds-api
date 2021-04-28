@@ -21,9 +21,10 @@ def load_db(category, difficulty):
     with open(f'{category}_db.json') as f:
         # lst = [item for item in f]
         data = json.load(f)
-        random = randint(0,len(data)-1)
-        data = data[random]
-        generate_image(data['question'], category, difficulty)
+        # choose random selection from data
+        data = data[randint(0,len(data)-1)]
+        data["choices"] = add_choices(data, category)
+        data["image_url"] = generate_image(data['question'], category, difficulty)
         return data
 
 # def save_db():
@@ -76,7 +77,18 @@ def generate_image(question, category, difficulty):
     filename = f"./static/{category}{time_stamp}.png"
     plt.savefig(filename, dpi=300, bbox_inches='tight')
 
-    return
+    return filename
 
-
+# Add other answers within same category
+def add_choices(data, category):
+  choices = []
+  with open(f'{category}_db.json') as f:
+    db = json.load(f)
+    while len(choices) <= 3:
+      random_choice = db[randint(0,len(data)-1)]["answer"]
+      print(random_choice)
+      if random_choice != data["answer"]:
+        choices.append(random_choice)
+  
+  return choices
     
