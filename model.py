@@ -10,7 +10,7 @@ https://flask-sqlalchemy.palletsprojects.com/.
 """
 import json
 from random import randint
-import matplotlib
+import matplotlib.pyplot as plt
 # from os import sys
 # from nltk.probability import FreqDist
 # from nltk.tokenize import word_tokenize
