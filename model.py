@@ -23,8 +23,9 @@ def load_db(category, difficulty):
         data = json.load(f)
         # choose random selection from data
         data = data[randint(0,len(data)-1)]
-        data["choices"] = add_choices(data, category)
-        data["image_url"] = generate_image(data['question'], category, difficulty)
+        data["category"] = category
+        data["choices"] = add_choices(data)
+        data["image_url"] = generate_image(data, difficulty)
         return data
 
 # def save_db():
@@ -32,7 +33,10 @@ def load_db(category, difficulty):
 #         return json.dump(db, f)
 
 # Generates and stores a wordcloud from question
-def generate_image(question, category, difficulty):
+def generate_image(data, difficulty):
+    answer = data["answer"]
+    question = data["question"]
+    category = data["category"]
     difficulty = int(difficulty)
 
     # stop words ("and", "the", "we", etc.)
@@ -74,20 +78,22 @@ def generate_image(question, category, difficulty):
     plt.axis('off')
 
     time_stamp = time.time()
-    filename = f"./static/{category}{time_stamp}.png"
+    filename = f"./static/{answer}.png"
     plt.savefig(filename, dpi=300, bbox_inches='tight')
 
     return filename
 
 # Add other answers within same category
-def add_choices(data, category):
-  choices = []
-  with open(f'{category}_db.json') as f:
-    db = json.load(f)
-    while len(choices) <= 2:
-      random_choice = db[randint(0,len(data)-1)]["answer"]
-      if random_choice != data["answer"]:
-        choices.append(random_choice)
-  
-  return choices
+def add_choices(data):
+    category = data["category"]
+
+    choices = []
+    with open(f'{category}_db.json') as f:
+      db = json.load(f)
+      while len(choices) <= 2:
+        random_choice = db[randint(0,len(data)-1)]["answer"]
+        if random_choice != data["answer"]:
+          choices.append(random_choice)
+    
+    return choices
     
