@@ -10,8 +10,8 @@ def index():
 @app.route('/api', methods=['GET', 'POST'])
 def api():
     if request.method == 'POST':
-        difficulty = request.form['difficulty']
         category = request.form['category']
+        difficulty = request.form['difficulty']
         response = load_db(category, difficulty)
         return jsonify(response)
     else:
