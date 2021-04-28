@@ -84,9 +84,8 @@ def add_choices(data, category):
   choices = []
   with open(f'{category}_db.json') as f:
     db = json.load(f)
-    while len(choices) <= 3:
+    while len(choices) <= 2:
       random_choice = db[randint(0,len(data)-1)]["answer"]
-      print(random_choice)
       if random_choice != data["answer"]:
         choices.append(random_choice)
   
