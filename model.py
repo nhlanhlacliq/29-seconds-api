@@ -10,8 +10,9 @@ https://flask-sqlalchemy.palletsprojects.com/.
 """
 import json
 from random import randint
+from flask import url_for
 import matplotlib.pyplot as plt
-from os import time
+import os
 from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud, STOPWORDS
@@ -71,7 +72,8 @@ def generate_image(question, category, difficulty):
     plt.imshow(colors, interpolation="bilinear")
     plt.axis('off')
 
-    plt.savefig((url_for('static', filename=f"image")), dpi=300, bbox_inches='tight')
+    time_stamp = os.time.time()
+    plt.savefig(f"./image{time_stamp}", dpi=300, bbox_inches='tight')
 
     return
 
