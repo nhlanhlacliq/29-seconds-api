@@ -8,8 +8,21 @@
 </head>
 <body>
     <form method="post">
-        <input type="text" name="difficulty" value="difficulty">
-        <input type="text" name="category" value="category">
+        <label for="difficulty">Difficulty</label>
+        <select name="difficulty" id="difficulty">
+            {% for level in range(10) %}
+                <option value="{{ level+1 }}">{{ level+1 }}</option>
+            {% endfor %}
+        </select>    
+        
+        <label for="category">Category</label>
+        <select name="category" id="category">
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+        <!-- <input type="text" name="difficulty" value="difficulty"> -->
+        <!-- <input type="text" name="category" value="category"> -->
         <button type="submit">Submit</button>
     </form>
     

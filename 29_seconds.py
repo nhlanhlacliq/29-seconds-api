@@ -7,6 +7,7 @@ app = Flask(__name__)
 def index():
     return redirect(url_for('api'))
 
+categories = ['anime', 'books']
 @app.route('/api', methods=['GET', 'POST'])
 def api():
     if request.method == 'POST':
@@ -15,4 +16,4 @@ def api():
         response = load_db(category, difficulty)
         return jsonify(response)
     else:
-        return render_template('api.html')
+        return render_template('api.html', categories=categories)
