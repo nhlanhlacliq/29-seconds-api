@@ -13,6 +13,7 @@ from random import randint
 from flask import url_for
 import matplotlib.pyplot as plt
 import time
+import os
 from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud, STOPWORDS
@@ -79,9 +80,11 @@ def generate_image(data, difficulty):
 
     time_stamp = time.time()
     filename = f"./static/{answer}.png"
-    plt.savefig(filename, dpi=300, bbox_inches='tight')
+    # save image else return existing one if it already exists
+    if not os.path.exists(filename):
+        plt.savefig(filename, dpi=300, bbox_inches='tight')
 
-    return filename
+    return filename[1:]
 
 # Add other answers within same category
 def add_choices(data):
