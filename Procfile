@@ -1,1 +1,1 @@
-web: gunicorn 29-seconds-api.wsgi
+web: gunicorn 29-seconds-api.py
