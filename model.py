@@ -12,10 +12,10 @@ import json
 from random import randint
 import matplotlib.pyplot as plt
 # from os import sys
-# from nltk.probability import FreqDist
-# from nltk.tokenize import word_tokenize
+from nltk.probability import FreqDist
+from nltk.tokenize import word_tokenize
 # from nltk.corpus import stopwords
-# from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud, STOPWORDS
 
 def db(category, difficulty):
     # get category, question, answer 
