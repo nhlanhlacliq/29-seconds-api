@@ -75,5 +75,6 @@ def generate_image(question, difficulty, category="xxxx"):
     # return filename[1:]
 
 
-generate_image(question, 1)
+print(question)
+# generate_image(question, 1)
 # replace('\\n','')
