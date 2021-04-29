@@ -78,8 +78,7 @@ def generate_image(data, difficulty):
     plt.imshow(colors, interpolation="bilinear")
     plt.axis('off')
 
-    time_stamp = time.time()
-    filename = f"./static/{answer}.png"
+    filename = f"./static/{answer}{difficulty}.png"
     # save image else return existing one if it already exists
     if not os.path.exists(filename):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
