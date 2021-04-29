@@ -83,7 +83,9 @@ def generate_image(data, difficulty):
     if not os.path.exists(filename):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
 
-    return filename[1:]
+    image_url = url_for("static", filename = filename[9:])
+
+    return image_url
 
 # Add other answers within same category
 def add_choices(data):
