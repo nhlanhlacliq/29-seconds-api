@@ -1,4 +1,4 @@
-import wikipediaapi
+from wikipediaapi import Wikipedia
 import matplotlib.pyplot as plt
 from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
@@ -7,7 +7,7 @@ from random import randint
 
 search = input("Search query:\n> ")
 
-wiki = wikipediaapi.Wikipedia('en')
+wiki = Wikipedia('en')
 page_py = wiki.page(search)
 print("Page - Exists: %s" % page_py.exists())
 # print("Page - Title: %s" % page_py.title)
