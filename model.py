@@ -40,11 +40,8 @@ def generate_image(data, difficulty):
     category = data["category"]
     difficulty = int(difficulty)
 
-    # stop words ("and", "the", "we", etc.)
-    stopwords= STOPWORDS
-
     # Make list of words in the question. dont add word if its a stop word..
-    words_in_question = [word for word in word_tokenize(question) if word not in stopwords]
+    words_in_question = [word for word in word_tokenize(question) if word not in STOPWORDS]
     words_freq_dist = FreqDist(words_in_question)
 
     # remove x = {difficulty level} most repeated words, add to clues list
@@ -62,7 +59,7 @@ def generate_image(data, difficulty):
     # generate wordcloud from adjusted question
     wc_rand_state = randint(7, 9)
     wc = WordCloud(max_words=500,relative_scaling=0.5,
-                  background_color='black',stopwords=stopwords,
+                  background_color='black',stopwords=STOPWORDS,
                   margin=2,random_state=wc_rand_state,contour_width=0.5,
                   contour_color='white', colormap='Accent')
     wc.generate(adjusted_question)
