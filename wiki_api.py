@@ -11,7 +11,7 @@ wiki = Wikipedia('en')
 page_py = wiki.page(search)
 print("Page - Exists: %s" % page_py.exists())
 # print("Page - Title: %s" % page_py.title)
-print("Page - Summary: %s" % page_py.sections[0])
+# print("Page - Summary: %s" % page_py.sections[0])
 
 
 def print_sections(sections, level=0):
@@ -21,28 +21,28 @@ def print_sections(sections, level=0):
         print_sections(s.sections, level + 1)
     return data
 
-def print_summary(sections, level=0):
+def get_summary(sections, level=0):
     data = ''
     # for s in sections:
     #     print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
     #     continue
-    print(sections[0])
+    data = str(sections[0])
+    data = data.replace("Plot","")
+    data = data.replace("Subsections","")
+    data = data.replace("Section","")
 
     return data
 
 # print_sections(page_py.sections)
-print_summary(page_py.sections)
+question = get_summary(page_py.sections)
+print(f"Summary:\n{question}")
 
 # Generates and stores a wordcloud from question
 def generate_image(question, difficulty, category="xxxx"):
     difficulty = int(difficulty)
 
-    # stop words ("and", "the", "we", etc.)
-    stops= ["Section","Plot","Subsections"]
-    stopwords= STOPWORDS + stops
-
     # Make list of words in the question. dont add word if its a stop word..
-    words_in_question = [word for word in word_tokenize(question) if word not in stopwords]
+    words_in_question = [word for word in word_tokenize(question) if word not in STOPWORDS]
     words_freq_dist = FreqDist(words_in_question)
 
     # remove x = {difficulty level} most repeated words, add to clues list
@@ -60,7 +60,7 @@ def generate_image(question, difficulty, category="xxxx"):
     # generate wordcloud from adjusted question
     wc_rand_state = randint(7, 9)
     wc = WordCloud(max_words=500,relative_scaling=0.5,
-                  background_color='black',stopwords=stopwords,
+                  background_color='black',stopwords=STOPWORDS,
                   margin=2,random_state=wc_rand_state,contour_width=0.5,
                   contour_color='white', colormap='Accent')
     wc.generate(adjusted_question)
@@ -87,5 +87,5 @@ def generate_image(question, difficulty, category="xxxx"):
 
 
 # print(question)
-# generate_image(question, 1)
+generate_image(question, 1)
 # replace('\\n','')
