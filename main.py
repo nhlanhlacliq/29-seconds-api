@@ -17,3 +17,11 @@ def api():
         return jsonify(response)
     else:
         return render_template('api.html', categories=categories)
+
+@app.route('/api/add')
+def add():
+    if request.method == 'POST':
+        # call wiki API
+        pass
+    else:
+        return render_template('add.html', categories=categories)
