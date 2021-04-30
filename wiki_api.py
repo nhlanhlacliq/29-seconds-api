@@ -17,18 +17,29 @@ print("Page - Summary: %s" % page_py.sections[0])
 def print_sections(sections, level=0):
     data = ''
     for s in sections:
-        data += "%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40])
+        print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
         print_sections(s.sections, level + 1)
     return data
 
-question = print_sections(page_py.sections)
+def print_summary(sections, level=0):
+    data = ''
+    # for s in sections:
+    #     print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
+    #     continue
+    print(sections[0])
+
+    return data
+
+# print_sections(page_py.sections)
+print_summary(page_py.sections)
 
 # Generates and stores a wordcloud from question
 def generate_image(question, difficulty, category="xxxx"):
     difficulty = int(difficulty)
 
     # stop words ("and", "the", "we", etc.)
-    stopwords= STOPWORDS
+    stops= ["Section","Plot","Subsections"]
+    stopwords= STOPWORDS + stops
 
     # Make list of words in the question. dont add word if its a stop word..
     words_in_question = [word for word in word_tokenize(question) if word not in stopwords]
@@ -75,6 +86,6 @@ def generate_image(question, difficulty, category="xxxx"):
     # return filename[1:]
 
 
-print(question)
+# print(question)
 # generate_image(question, 1)
 # replace('\\n','')
