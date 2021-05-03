@@ -87,12 +87,12 @@ def generate_image(data, difficulty, url_root):
     plt.imshow(colors, interpolation="bilinear")
     plt.axis('off')
 
-    filename = f"./static/{answer}{difficulty}.png"
+    filename = f"./image/{answer}{difficulty}.png"
     # save image else return existing one if it already exists
     if not os.path.exists(filename):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
 
-    image_url = url_for("static", filename = filename[9:])
+    image_url = url_for("image", filename = filename[9:])
     url = url_root + image_url[1:]
 
     return url
