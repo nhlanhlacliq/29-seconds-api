@@ -40,4 +40,5 @@ def view():
 
 @app.route('/images/<path:path>')
 def images(path):
+    path = app.instance_path + path
     return send_from_directory('images', path)
