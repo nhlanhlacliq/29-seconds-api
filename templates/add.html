@@ -1,1 +1,16 @@
-{% inherits 'base' %}
+{% extends "base.html" %}
+
+{% block title %}Add Card{% endblock %}
+
+{% block body %}
+<h1>Add a new Question</h1>
+    <form method="post">
+        <h1>Uses wikipedia API</h1>
+        <h3>(You may need to check wikipedia if the page does not exist)</h3>
+        <p>
+            Question:
+            <input type="text" name="question">
+        </p>
+        <button type="submit">Search</button>
+    </form>
+{% endblock %}
