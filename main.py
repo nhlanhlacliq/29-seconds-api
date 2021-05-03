@@ -1,5 +1,5 @@
 from flask import Flask, render_template, abort, url_for, jsonify, request, redirect
-from model import load_db
+from model import load_db, view_db
 from wiki_api import has_wiki_page
 
 app = Flask(__name__)
@@ -32,3 +32,7 @@ def add():
         return f"ERROR: '{query}' Not found on wikipedia."
     else:
         return render_template('add.html', categories=categories)
+
+@app.route('/api/view')
+def view():
+    return jsonify(view_db())
