@@ -18,14 +18,14 @@ from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud, STOPWORDS
 
-def load_db(category, difficulty):
+def load_db(category, difficulty, url_root):
     with open(f'{category}_db.json') as f:
         data = json.load(f)
         # choose random selection from data
         data = data[randint(0,len(data)-1)]
         data["category"] = category
         data["choices"] = add_choices(data)
-        data["image_url"] = generate_image(data, difficulty)
+        data["image_url"] = generate_image(data, difficulty, url_root)
         return data
 
 # def save_db():
@@ -46,7 +46,7 @@ def view_db(categories):
     return result
 
 # Generates and stores a wordcloud from question
-def generate_image(data, difficulty):
+def generate_image(data, difficulty, url_root):
     answer = data["answer"]
     question = data["question"]
     category = data["category"]
@@ -93,8 +93,10 @@ def generate_image(data, difficulty):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
 
     image_url = url_for("static", filename = filename[9:])
+    
+    url = url_root.replace("/api", image_url)
 
-    return image_url
+    return url
 
 # Add other answers within same category
 def add_choices(data):
