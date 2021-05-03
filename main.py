@@ -25,6 +25,10 @@ def add():
         # call wiki API
         query = request.form['question']
         category = request.form['category']
-        pass
+        if has_wiki_page(query, category):
+            # success
+            return f"'{query}' added to the database!"
+        # failure
+        return f"ERROR: '{query}' Not found on wikipedia."
     else:
         return render_template('add.html', categories=categories)
