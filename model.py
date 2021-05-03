@@ -20,7 +20,6 @@ from wordcloud import WordCloud, STOPWORDS
 
 def load_db(category, difficulty):
     with open(f'{category}_db.json') as f:
-        # lst = [item for item in f]
         data = json.load(f)
         # choose random selection from data
         data = data[randint(0,len(data)-1)]
@@ -37,6 +36,14 @@ def load_db(category, difficulty):
 # add new data to the database
 def update_db(answer, category, question):
     return True
+
+# Return database
+def view_db():
+    data = ''
+    for category in categories:
+        with open(f'{category}_db.json') as f:
+            data += json.load(f)
+    return data
 
 # Generates and stores a wordcloud from question
 def generate_image(data, difficulty):
