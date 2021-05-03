@@ -88,6 +88,7 @@ def generate_image(data, difficulty, url_root):
     plt.axis('off')
 
     filename = f"./image/{answer}{difficulty}.png"
+    filename = filename.replace(" ","")
     # save image else return existing one if it already exists
     if not os.path.exists(filename):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
