@@ -93,8 +93,7 @@ def generate_image(data, difficulty, url_root):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
 
     image_url = url_for("static", filename = filename[9:])
-    
-    url = url_root.replace("/api", image_url)
+    url = url_root + image_url[1:]
 
     return url
 
