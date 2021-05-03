@@ -33,6 +33,11 @@ def load_db(category, difficulty):
 #     with open('flashcards_db.json', 'w') as f:
 #         return json.dump(db, f)
 
+# WIP
+# add new data to the database
+def update_db(answer, category, question):
+    return True
+
 # Generates and stores a wordcloud from question
 def generate_image(data, difficulty):
     answer = data["answer"]
