@@ -14,7 +14,8 @@ def api():
     if request.method == 'POST':
         category = request.form['category']
         difficulty = request.form['difficulty']
-        response = load_db(category, difficulty)
+        url_root = request.url_root
+        response = load_db(category, difficulty, url_root)
         return jsonify(response)
     else:
         return render_template('api.html', categories=categories)
