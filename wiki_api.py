@@ -1,4 +1,5 @@
 from wikipediaapi import Wikipedia
+from model import update_db
 
 # for debugging purposes
 def print_sections(sections, level=0):
