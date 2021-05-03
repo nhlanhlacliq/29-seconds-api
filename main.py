@@ -19,7 +19,7 @@ def api():
     else:
         return render_template('api.html', categories=categories)
 
-@app.route('/api/add')
+@app.route('/api/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
         # call wiki API
