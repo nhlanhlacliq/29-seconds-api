@@ -22,6 +22,7 @@ def api():
 def add():
     if request.method == 'POST':
         # call wiki API
+        query = request.form['query']
         pass
     else:
         return render_template('add.html', categories=categories)
