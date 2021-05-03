@@ -91,9 +91,8 @@ def generate_image(data, difficulty, url_root):
     # save image else return existing one if it already exists
     if not os.path.exists(filename):
         plt.savefig(filename, dpi=300, bbox_inches='tight')
-
-    image_url = url_for("image", filename = filename[9:])
-    url = url_root + image_url[1:]
+ 
+    url = url_root + filename[2:]
 
     return url
 
