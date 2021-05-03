@@ -3,12 +3,12 @@ from model import load_db, view_db
 from wiki_api import has_wiki_page
 
 app = Flask(__name__)
+categories = ['anime']
 
 @app.route('/')
 def index():
     return redirect(url_for('api'))
 
-categories = ['anime']
 @app.route('/api', methods=['GET', 'POST'])
 def api():
     if request.method == 'POST':
@@ -35,4 +35,4 @@ def add():
 
 @app.route('/api/view')
 def view():
-    return jsonify(view_db())
+    return jsonify(view_db(categories=categories))
