@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, url_for, jsonify, request, redirect
+from flask import Flask, render_template, abort, url_for, jsonify, request, redirect, send_from_directory
 from model import load_db, view_db
 from wiki_api import has_wiki_page
 
@@ -37,3 +37,7 @@ def add():
 @app.route('/api/view')
 def view():
     return jsonify(view_db(categories=categories))
+
+@app.route('/images/<path:path>')
+def images(path):
+    return send_from_directory('images', path)
