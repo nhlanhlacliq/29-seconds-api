@@ -1,5 +1,6 @@
 from flask import Flask, render_template, abort, url_for, jsonify, request, redirect
 from model import load_db
+from wiki_api import has_wiki_page
 
 app = Flask(__name__)
 
@@ -22,7 +23,8 @@ def api():
 def add():
     if request.method == 'POST':
         # call wiki API
-        query = request.form['query']
+        query = request.form['question']
+        category = request.form['category']
         pass
     else:
         return render_template('add.html', categories=categories)
