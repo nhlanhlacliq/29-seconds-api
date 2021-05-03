@@ -1,20 +1,12 @@
 from wikipediaapi import Wikipedia
-import matplotlib.pyplot as plt
-from nltk.probability import FreqDist
-from nltk.tokenize import word_tokenize
-from wordcloud import WordCloud, STOPWORDS
-from random import randint
 
-
-
-
+# for debugging purposes
 def print_sections(sections, level=0):
     data = ''
     for s in sections:
         print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
         print_sections(s.sections, level + 1)
     return data
-
 
 def get_summary(sections, level=0):
     data = ''
@@ -38,5 +30,3 @@ def has_wiki_page(query, category):
     result = get_summary(page_py.sections)
     # pass result onto model to check and add to database
     return update_db(query, category, result)
-
-
