@@ -25,7 +25,7 @@ def load_db(category, difficulty, url_root):
         data = data[randint(0,len(data)-1)]
         data["category"] = category
         data["choices"] = add_choices(data)
-        data["image_url"] = generate_image(data, difficulty, url_root)
+        data["image"] = generate_image(data, difficulty, url_root)
         return data
 
 # def save_db():
