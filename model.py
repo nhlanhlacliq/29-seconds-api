@@ -39,11 +39,13 @@ def update_db(answer, category, question):
 
 # Return database
 def view_db(categories):
-    data = ''
+    result = ''
     for category in categories:
         with open(f'{category}_db.json') as f:
-            data += json.load(f)
-    return data
+            data_list = json.load(f)
+            for data in data_list:
+                result += data
+    return result
 
 # Generates and stores a wordcloud from question
 def generate_image(data, difficulty):
