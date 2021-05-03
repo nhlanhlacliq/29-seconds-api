@@ -7,6 +7,14 @@
     <form method="post">
         <h1>Uses wikipedia API</h1>
         <h3>(You may need to check wikipedia if the page does not exist)</h3>
+        
+        <label for="category">Category</label>
+        <select name="category" id="category">
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+
         <p>
             Question:
             <input type="text" name="question">
