@@ -38,7 +38,7 @@ def update_db(answer, category, question):
     return True
 
 # Return database
-def view_db():
+def view_db(categories):
     data = ''
     for category in categories:
         with open(f'{category}_db.json') as f:
