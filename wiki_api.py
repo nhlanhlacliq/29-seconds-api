@@ -1,5 +1,4 @@
 import wikipedia
-from model import update_db
 
 # for debugging purposes
 def print_sections(sections, level=0):
@@ -7,6 +6,7 @@ def print_sections(sections, level=0):
         print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
         print_sections(s.sections, level + 1)
 
+# @deprecated
 def get_summary(sections, level=0):
     data = ''
     # for s in sections:
@@ -19,16 +19,18 @@ def get_summary(sections, level=0):
 
     return data
 
-def has_wiki_page(query, category):
+def has_wiki_page(query):
     search_lst = wikipedia.search(query)
-    print(search_lst)
     page = wikipedia.page(search_lst[0])
-    # print(page.content)
-    print(page.summary("plot"))
-    # Return false if page does not exist
     if not page:
         return False
-    # else save page to database(if not already existing page)
-    # pass result onto model to check and add to database
-    result = get_summary(page.sections)
-    return update_db(query, category, result)
+    return True
+    
+def get_wiki_page(query, category):
+    # get first result of search query
+    page = wikipedia.page(wikipedia.search(query)[0])
+    # parse and save page plot to database(if not already existing page)
+    content = str(page.content)
+    plot_start = content.split("== Plot ==")[1]
+    plot = plot_start.split("== ")[0]
+    return plot
