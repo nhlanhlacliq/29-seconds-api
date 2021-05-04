@@ -22,14 +22,13 @@ def get_summary(sections, level=0):
     return data
 
 def has_wiki_page(query, category):
-    # wiki = Wikipedia('en')
     search_lst = wikipedia.search(query)
 
-    page_py = wikipedia.page(search_lst[0])
+    page = wikipedia.page(search_lst[0])
     # Return false if page does not exist
-    if not page_py:
+    if not page:
         return False
     # else save page to database(if not already existing page)
-    result = get_summary(page_py.sections)
     # pass result onto model to check and add to database
+    result = get_summary(page.sections)
     return update_db(query, category, result)
