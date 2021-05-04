@@ -29,7 +29,7 @@ def add():
         if has_wiki_page(query):
             # success
             plot = get_wiki_page(query, category)
-            return f"CONFIRM \n {plot}"
+            return render_template('confirm.html', query=query, plot=plot)
         # failure
         return f"ERROR: '{query}' Not found on wikipedia."
     else:
