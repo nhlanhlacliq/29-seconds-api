@@ -1,6 +1,6 @@
 from flask import Flask, render_template, abort, url_for, jsonify, request, redirect
-from model import load_db, view_db
-from wiki_api import has_wiki_page
+from model import load_db, view_db, update_db
+from wiki_api import has_wiki_page, get_wiki_page
 
 app = Flask(__name__)
 categories = ['anime']
@@ -26,9 +26,10 @@ def add():
         # call wiki API
         query = request.form['question']
         category = request.form['category']
-        if has_wiki_page(query, category):
+        if has_wiki_page(query):
             # success
-            return f"'{query}' added to the database!"
+            plot = get_wiki_page(query, category)
+            return f"CONFIRM \n {plot}"
         # failure
         return f"ERROR: '{query}' Not found on wikipedia."
     else:
