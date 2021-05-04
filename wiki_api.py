@@ -3,11 +3,9 @@ from model import update_db
 
 # for debugging purposes
 def print_sections(sections, level=0):
-    data = ''
     for s in sections:
         print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
         print_sections(s.sections, level + 1)
-    return data
 
 def get_summary(sections, level=0):
     data = ''
@@ -25,6 +23,8 @@ def has_wiki_page(query, category):
     search_lst = wikipedia.search(query)
     print(search_lst)
     page = wikipedia.page(search_lst[0])
+    # print(page.content)
+    print(page.summary("plot"))
     # Return false if page does not exist
     if not page:
         return False
