@@ -3,8 +3,8 @@
 {% block title %}Confirm Question{% endblock %}
 
 {% block body %}
-<h1>{{ query }}</h1>
-    <form method="post">
+<h1>{{ title }}</h1>
+    <form method="post" action="{{ url_for('confirm', title=title, plot=plot) }}">
         <p>
             Plot:
             {{ plot }}

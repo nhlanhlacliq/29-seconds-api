@@ -28,13 +28,23 @@ def add():
         category = request.form['category']
         if has_wiki_page(query):
             # success
-            plot = get_wiki_page(query, category)
-            return render_template('confirm.html', query=query, plot=plot)
+            title, plot = get_wiki_page(query, category)
+            return render_template('confirm.html', title=title, plot=plot)
         # failure
         return f"ERROR: '{query}' Not found on wikipedia."
     else:
         return render_template('add.html', categories=categories)
 
+@app.route('/api/add/confirm', methods=['GET', 'POST'])
+def confirm(title, plot):
+    if request.method == 'POST':
+        print(request.form)
+        print("HHHHHHHHHHHHHHHHHHH")
+    else:
+        return render_template('confirm.html', title=title, plot=plot)
+
+
 @app.route('/api/view')
 def view():
     return jsonify(view_db(categories=categories))
+

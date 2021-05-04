@@ -20,17 +20,25 @@ def get_summary(sections, level=0):
     return data
 
 def has_wiki_page(query):
-    search_lst = wikipedia.search(query)
-    page = wikipedia.page(search_lst[0])
-    if not page:
+    try:
+        search_lst = wikipedia.search(query)
+        page = wikipedia.page(search_lst[0])
+        if not page:
+            return False
+        return True
+    except IndexError:
         return False
-    return True
-    
+
+
 def get_wiki_page(query, category):
-    # get first result of search query
-    page = wikipedia.page(wikipedia.search(query)[0])
-    # parse and save page plot to database(if not already existing page)
-    content = str(page.content)
-    plot_start = content.split("== Plot ==")[1]
-    plot = plot_start.split("== ")[0]
-    return plot
+    try:
+        # get first result of search query
+        page = wikipedia.page(wikipedia.search(query)[0])
+        # parse and save page plot to database(if not already existing page)
+        title = str(page.title)
+        content = str(page.content)
+        plot_start = content.split("== Plot ==")[1]
+        plot = plot_start.split("== ")[0]
+        return title, plot
+    except IndexError:
+        return f"'{query}' has no plot."
