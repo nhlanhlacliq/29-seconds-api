@@ -23,7 +23,7 @@ def get_summary(sections, level=0):
 
 def has_wiki_page(query, category):
     search_lst = wikipedia.search(query)
-
+    print(search_lst)
     page = wikipedia.page(search_lst[0])
     # Return false if page does not exist
     if not page:
