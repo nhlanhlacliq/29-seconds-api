@@ -87,7 +87,7 @@ def generate_image(data, difficulty, url_root):
     plt.imshow(colors, interpolation="bilinear")
     plt.axis('off')
 
-    filename = f"./images/{answer}{difficulty}.png"
+    filename = f"./static/{answer}{difficulty}.png"
     filename = filename.replace(" ","")
     # save image else return existing one if it already exists
     if not os.path.exists(filename):
