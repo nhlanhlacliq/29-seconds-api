@@ -37,8 +37,12 @@ def get_wiki_page(query, category):
         # parse and save page plot to database(if not already existing page)
         title = str(page.title)
         content = str(page.content)
+        
         plot_start = content.split("== Plot ==")[1]
         plot = plot_start.split("== ")[0]
+        if len(plot) < 10:
+            plot_start = content.split("== Synopsis ==")[1]
+            plot = plot_start.split("== ")[0]
         return title, plot
     except IndexError:
-        return f"'{query}' has no plot."
+        return f"'{query}' has no plot/synopsis."
