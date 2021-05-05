@@ -29,17 +29,20 @@ def add():
         if has_wiki_page(query):
             # success
             title, plot = get_wiki_page(query, category)
-            return render_template('confirm.html', title=title, plot=plot)
+            return redirect(url_for('confirm', title=title, plot=plot))
         # failure
         return f"ERROR: '{query}' Not found on wikipedia."
     else:
         return render_template('add.html', categories=categories)
 
-@app.route('/api/add/confirm', methods=['GET', 'POST'])
+@app.route('/api/add/confirm/<title>/<plot>', methods=['GET', 'POST'])
 def confirm(title, plot):
     if request.method == 'POST':
         print(request.form)
-        print("HHHHHHHHHHHHHHHHHHH")
+        if request.form.getlist('button')[0] == 'yes':
+            return "ADD TO DATABSE"
+        else: 
+            return redirect(url_for('add'))
     else:
         return render_template('confirm.html', title=title, plot=plot)
 
