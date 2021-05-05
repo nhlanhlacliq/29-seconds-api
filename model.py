@@ -22,20 +22,28 @@ def load_db(category, difficulty, url_root):
     with open(f'{category}_db.json') as f:
         data = json.load(f)
         # choose random selection from data
-        data = data[randint(0,len(data)-1)]
-        data["category"] = category
-        data["choices"] = add_choices(data)
-        data["image"] = generate_image(data, difficulty, url_root)
-        return data
+        data_random = data[randint(0,len(data)-1)]
+        data_random["category"] = category
+        data_random["choices"] = add_choices(data)
+        data_random["image"] = generate_image(data, difficulty, url_root)
+        return data_random
 
-# def save_db():
-#     with open('flashcards_db.json', 'w') as f:
-#         return json.dump(db, f)
+# def save_db(category):
+#     with open('{category}_db.json', 'w') as f:
+#         db = json.load(f)
+#     return json.dump(db, f)
 
-# WIP
+
 # add new data to the database
-def update_db(answer, category, question):
-    return True
+def update_db(category, answer, question):
+    data = {"question":question,
+          "answer":answer}
+    with open(f'{category}_db.json', 'r') as f:
+        db = json.load(f)
+    with open(f'{category}_db.json', 'w') as f:
+        db.append(data)
+        return json.dump(db, f)
+    
 
 # Return database
 def view_db(categories):
