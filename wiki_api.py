@@ -1,48 +1,54 @@
 import wikipedia
 
-# for debugging purposes
-def print_sections(sections, level=0):
-    for s in sections:
-        print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
-        print_sections(s.sections, level + 1)
+class WikiPage():
+    has_page = False
+    page = None
+    query = None
 
-# @deprecated
-def get_summary(sections, level=0):
-    data = ''
-    # for s in sections:
-    #     print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
-    #     continue
-    data = str(sections[0])
-    data = data.replace("Plot","")
-    data = data.replace("Subsections","")
-    data = data.replace("Section","")
-
-    return data
-
-def has_wiki_page(query):
-    try:
+    def __init__(self, query):
         search_lst = wikipedia.search(query)
+        # 
+        # this above works
+        # 
+        # 
         page = wikipedia.page(search_lst[0])
-        if not page:
-            return False
-        return True
-    except IndexError:
-        return False
+        if page:
+            self.has_page = True
+            self.page = page
+            self.query = query
 
+    # for debugging purposes
+    # @deprecated
+    def print_sections(self, sections, level=0):
+        for s in sections:
+            print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
+            print_sections(s.sections, level + 1)
 
-def get_wiki_page(query, category):
-    try:
-        # get first result of search query
-        page = wikipedia.page(wikipedia.search(query)[0])
-        # parse and save page plot to database(if not already existing page)
-        title = str(page.title)
-        content = str(page.content)
-        
-        plot_start = content.split("== Plot ==")[1]
-        plot = plot_start.split("== ")[0]
-        if len(plot) < 10:
-            plot_start = content.split("== Synopsis ==")[1]
-            plot = plot_start.split("== ")[0]
-        return title, plot
-    except IndexError:
-        return f"'{query}' has no plot/synopsis."
+    # @deprecated
+    def get_summary(self, sections, level=0):
+        data = ''
+        # for s in sections:
+        #     print("%s: %s - %s" % ("*" * (level + 1), s.title, s.text[0:40]))
+        #     continue
+        data = str(sections[0])
+        data = data.replace("Plot","")
+        data = data.replace("Subsections","")
+        data = data.replace("Section","")
+
+        return data
+
+    def has_page(self):
+        return self.has_page
+
+    def get_data(self):
+        try:
+            # parse and save page plot to database(if not already existing page)
+            title = str(self.page.title)
+            content = str(self.page.content)
+            # print(content)
+            plot = content.split("==")[2]
+            if len(plot) < 10:
+                plot = content.split("==")[3]
+            return title, plot
+        except IndexError:
+            return f"'{query}' has no plot/synopsis."
