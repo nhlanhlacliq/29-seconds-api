@@ -3,15 +3,15 @@
 {% block title %}Confirm Question{% endblock %}
 
 {% block body %}
-<h1>{{ title }}</h1>
-    <form method="post" action="{{ url_for('confirm', title=title, plot=plot) }}">
+    <form method="post">
+        <h1>{{ title }}</h1>
         <p>
             Plot:
             {{ plot }}
         </p>
         <p>is this correct?</p>
-        <button type="submit" name="yes">Yes</button>
-        <button type="submit" name="no">No</button>
+        <button type="submit" name="button" value="yes">Yes</button>
+        <button type="submit" name="button" value="no">No</button>
 
     </form>
 {% endblock %}
