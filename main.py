@@ -41,7 +41,6 @@ def confirm(category, title, plot):
         print(request.form)
         if request.form.getlist('button')[0] == 'yes':
             update_db(category, title, plot)
-            # save_db(category)
             return "ADDED TO DATABASE"
         else: 
             return redirect(url_for('add'))
