@@ -41,7 +41,8 @@ def update_db(category, answer, question):
     with open(f'{category}_db.json', 'r') as f:
         db = json.load(f)
     with open(f'{category}_db.json', 'w') as f:
-        db.append(data)
+        if data not in db:
+            db.append(data)
         return json.dump(db, f)
     
 
