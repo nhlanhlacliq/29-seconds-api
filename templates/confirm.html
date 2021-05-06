@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Confirm Question{% endblock %}
+
+{% block body %}
+    <form method="post">
+        <h1>{{ title }}</h1>
+        <p>
+            Plot:
+            {{ plot }}
+        </p>
+        <p>is this correct?</p>
+        <button type="submit" name="button" value="yes">Yes</button>
+        <button type="submit" name="button" value="no">No</button>
+
+    </form>
+{% endblock %}
