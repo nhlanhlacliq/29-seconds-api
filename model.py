@@ -24,8 +24,8 @@ def load_db(category, difficulty, url_root):
         # choose random selection from data
         data_random = data[randint(0,len(data)-1)]
         data_random["category"] = category
-        data_random["choices"] = add_choices(data)
-        data_random["image"] = generate_image(data, difficulty, url_root)
+        data_random["choices"] = add_choices(data_random)
+        data_random["image"] = generate_image(data_random, difficulty, url_root)
         return data_random
 
 # def save_db(category):
