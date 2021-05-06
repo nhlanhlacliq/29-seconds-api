@@ -6,12 +6,9 @@ class WikiPage():
     query = None
 
     def __init__(self, query):
-        search_lst = wikipedia.search(query)
-        # 
-        # this above works
-        # 
-        # 
-        page = wikipedia.page(search_lst[0])
+        result = wikipedia.search(query)[0]
+        page = wikipedia.page(result, auto_suggest=False)
+
         if page:
             self.has_page = True
             self.page = page
@@ -48,7 +45,7 @@ class WikiPage():
             # print(content)
             plot = content.split("==")[2]
             if len(plot) < 10:
-                plot = content.split("==")[3]
+                plot = content.split("==")[4]
             return title, plot
         except IndexError:
             return f"'{query}' has no plot/synopsis."
