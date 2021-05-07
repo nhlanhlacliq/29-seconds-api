@@ -63,16 +63,13 @@ def generate_image(data, difficulty, url_root):
     words_freq_dist = FreqDist(words_in_question)
 
     # remove x = {difficulty level} most repeated words, add to clues list
-    # clues not yet working.. returns int of word counts instead of actual word
-    clues = []
     for i in range(difficulty):
-      clue = words_freq_dist.pop(words_freq_dist.max())
-      clues.append(clue)
+        words_freq_dist.pop(words_freq_dist.max())
       
     # adjusted question is question without x most repeated words 
     adjusted_question = ''
     for word in words_freq_dist.keys():
-      adjusted_question += word + ' '
+        adjusted_question += word + ' '
 
     # generate wordcloud from adjusted question
     wc_rand_state = randint(7, 9)
