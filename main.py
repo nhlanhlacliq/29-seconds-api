@@ -31,7 +31,7 @@ def add():
             if query_page.has_page:
                 # success
                 title, plot = query_page.get_data()
-                return redirect(url_for('confirm',category=category, title=title, plot=plot[:2800]))
+                return redirect(url_for('confirm',category=category, title=title, plot=plot[:2750]))
             # failure
             return f"ERROR: '{query}' Not found on wikipedia."
         except IndexError:
