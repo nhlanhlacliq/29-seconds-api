@@ -1,5 +1,5 @@
-from flask import Flask, render_template, abort, url_for, jsonify, request, redirect
-from model import load_db, view_db, update_db
+from flask import Flask, render_template, abort, url_for, request, redirect
+from model import read_random, read_all, create
 from wiki_api import WikiPage
 
 app = Flask(__name__)
@@ -15,8 +15,8 @@ def api():
         category = request.form['category']
         difficulty = request.form['difficulty']
         url_root = request.url_root
-        response = load_db(category, difficulty, url_root)
-        return jsonify(response)
+        response = read_random(category, difficulty, url_root)
+        return response
     else:
         return render_template('api.html', categories=categories)
 
@@ -31,7 +31,7 @@ def add():
             if query_page.has_page:
                 # success
                 title, plot = query_page.get_data()
-                return redirect(url_for('confirm',category=category, title=title, plot=plot))
+                return redirect(url_for('confirm',category=category, title=title, plot=plot[:2850]))
             # failure
             return f"ERROR: '{query}' Not found on wikipedia."
         except IndexError:
@@ -44,15 +44,19 @@ def add():
 def confirm(category, title, plot):
     if request.method == 'POST':
         if request.form.getlist('button')[0] == 'yes':
-            update_db(category, title, plot)
+            create(category, title, plot)
             return "ADDED TO DATABASE"
         else: 
             return redirect(url_for('add'))
     else:
         return render_template('confirm.html', title=title, plot=plot)
 
+# view one catergory
+@app.route('/api/view/<category>')
+def view(category):
+    return read_all(categories=[category])
 
+# view all categories
 @app.route('/api/view')
-def view():
-    return jsonify(view_db(categories=categories))
-
+def view_all():
+    return read_all(categories=categories)
