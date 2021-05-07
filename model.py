@@ -1,60 +1,57 @@
-"""
-model.py
---------
-Implements the model for our website by simulating a database.
-
-Note: although this is nice as a simple example, don't do this in a real-world
-production setting. Having a global object for application data is asking for
-trouble. Instead, use a real database layer, like
-https://flask-sqlalchemy.palletsprojects.com/.
-"""
 import json
-from random import randint
-from flask import url_for
+from random import randint, shuffle
+from flask import url_for, jsonify
 import matplotlib.pyplot as plt
 import time
 import os
 from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud, STOPWORDS
+from pymongo import MongoClient
+from bson import json_util
 
-def load_db(category, difficulty, url_root):
-    with open(f'{category}_db.json') as f:
-        data = json.load(f)
-        # choose random selection from data
-        data_random = data[randint(0,len(data)-1)]
-        data_random["category"] = category
-        data_random["choices"] = add_choices(data_random)
-        data_random["image"] = generate_image(data_random, difficulty, url_root)
-        return data_random
+# connect to MongoDB
+client = MongoClient("mongodb+srv://admin:octopus@29seconds.s8flw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db=client["anime_db"]
 
-# def save_db(category):
-#     with open('{category}_db.json', 'w') as f:
-#         db = json.load(f)
-#     return json.dump(db, f)
+# return random entry from database
+def read_random(category, difficulty, url_root):
+    database = []
+    collection=db[category]
+    results = collection.find()
+    for result in results:
+        database.append(result)
+    # choose random selection from data
+    shuffle(database)
+    data_random = database[randint(0,len(database)-1)]
+    data_random["category"] = category
+    data_random["choices"] = add_choices(data_random)
+    data_random["image"] = generate_image(data_random, difficulty, url_root)
+    return jsonify(json.loads(json_util.dumps(data_random)))
 
-
-# add new data to the database
-def update_db(category, answer, question):
+# insert new data to mongo db
+def create(category, answer, question):
     data = {"question":question,
-          "answer":answer}
-    with open(f'{category}_db.json', 'r') as f:
-        db = json.load(f)
-    with open(f'{category}_db.json', 'w') as f:
-        if data not in db:
-            db.append(data)
-        return json.dump(db, f)
-    
+            "answer":answer}
+    # if it already exists, exit function. else insert into db.
+    collection=db[category]
+    results = collection.find(data)
+    for result in results:
+        if result["answer"] == answer:
+            return
+    return collection.insert_one(data)        
 
-# Return database
-def view_db(categories):
-    result = []
+# Return data from mongo db
+def read_all(categories):
+    database = []
     for category in categories:
-        with open(f'{category}_db.json') as f:
-            result.append(json.load(f))
-    return result
+        collection=db[category]
+        results = collection.find()
+        for result in results:
+            database.append(result)
+    return jsonify(json.loads(json_util.dumps(database)))
 
-# Generates and stores a wordcloud from question
+# Generates and stores a wordcloud from question. return image url
 def generate_image(data, difficulty, url_root):
     answer = data["answer"]
     question = data["question"]
@@ -107,15 +104,16 @@ def generate_image(data, difficulty, url_root):
 
 # Add other answers within same category
 def add_choices(data):
-    category = data["category"]
-
     choices = []
-    with open(f'{category}_db.json') as f:
-      db = json.load(f)
-      while len(choices) <= 2:
-        random_choice = db[randint(0,len(db)-1)]["answer"]
+    database = []
+    collection=db[data["category"]]
+    results = collection.find()
+    for result in results:
+        database.append(result["answer"])
+    shuffle(database)    
+    while len(choices) < 3:
+        random_choice = database[randint(0,len(database)-1)]
         if (random_choice != data["answer"]) and (random_choice not in choices):
-          choices.append(random_choice)
+            choices.append(random_choice)
     
     return choices
-    
