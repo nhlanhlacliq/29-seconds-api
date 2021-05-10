@@ -77,11 +77,8 @@ def generate_image(data_object, difficulty_lvl, page_url):
                   background_color='black',stopwords=STOPWORDS,
                   margin=2,random_state=wc_rand_state,contour_width=0.5,
                   contour_color='white', colormap='Accent')
-    wc.generate(adjusted_question)
+    wc.generate(question)
     colors = wc.to_array()
-    # plotting frequency distribution of words in question.. Uncomment to verify..
-    # words_freq_dist.plot(15, linestyle='-', title="FreqDist of words")
-    # plt.legend()
 
     # prepare plot 
     # plt.ion()
