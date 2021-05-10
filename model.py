@@ -71,7 +71,7 @@ def generate_image(data_object, difficulty_lvl, page_url):
         temp_question += f"{word} "
     question = temp_question
 
-    # generate wordcloud from adjusted question
+    # generate wordcloud using words in question
     wc_rand_state = randint(7, 9)
     wc = WordCloud(max_words=500,relative_scaling=0.5,
                   background_color='black',stopwords=STOPWORDS,
