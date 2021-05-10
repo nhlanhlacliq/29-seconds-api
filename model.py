@@ -60,16 +60,16 @@ def generate_image(data_object, difficulty_lvl, page_url):
 
     # Make list of words in the question excluding stop words.
     words_in_question = [word for word in word_tokenize(question) if word not in STOPWORDS]
-    words_freq_dist = FreqDist(words_in_question)
+    freq_dist = FreqDist(words_in_question)
 
-    # remove x = {difficulty_lvl level} most repeated words, add to clues list
+    # remove {difficulty_lvl} most repeated words in question, add to removed list
+    removed = []
     for i in range(difficulty_lvl):
-        words_freq_dist.pop(words_freq_dist.max())
-      
-    # create string without x most repeated words 
-    adjusted_question = ''
-    for word in words_freq_dist.keys():
-        adjusted_question += word + ' '
+        removed.append(freq_dist.pop(freq_dist.max()))
+    temp_question = ''
+    for word in freq_dist.keys():
+        temp_question += f"{word} "
+    question = temp_question
 
     # generate wordcloud from adjusted question
     wc_rand_state = randint(7, 9)
@@ -83,16 +83,16 @@ def generate_image(data_object, difficulty_lvl, page_url):
     # words_freq_dist.plot(15, linestyle='-', title="FreqDist of words")
     # plt.legend()
 
-    # save wordcloud image, return link 
-    plt.ion()
+    # prepare plot 
+    # plt.ion()
     plt.figure()
     plt.title(f"Which {category} is this?\n", fontsize=20, color='black')
     plt.imshow(colors, interpolation="bilinear")
     plt.axis('off')
-
-    image = f"./static/{answer}{difficulty_lvl}.png".replace(" ","")
+    # generate image name
+    image = f"./static/{answer}{difficulty_lvl}.png"
     image = image.replace(" ","")
-    # save image else return existing image of the same answer and difficulty level
+    # save plot as image else return existing image (same answer and difficulty level)
     if not os.path.exists(image):
         plt.savefig(image, dpi=300, bbox_inches='tight')
     url = page_url + image[2:]
