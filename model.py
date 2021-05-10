@@ -90,12 +90,12 @@ def generate_image(data_object, difficulty_lvl, page_url):
     plt.imshow(colors, interpolation="bilinear")
     plt.axis('off')
 
-    filename = f"./static/{answer}{difficulty_lvl}.png"
-    filename = filename.replace(" ","")
-    # save image else return existing one if it already exists
-    if not os.path.exists(filename):
-        plt.savefig(filename, dpi=300, bbox_inches='tight')
-    url = page_url + filename[2:]
+    image = f"./static/{answer}{difficulty_lvl}.png".replace(" ","")
+    image = image.replace(" ","")
+    # save image else return existing image of the same answer and difficulty level
+    if not os.path.exists(image):
+        plt.savefig(image, dpi=300, bbox_inches='tight')
+    url = page_url + image[2:]
 
     return url
 
