@@ -1,8 +1,7 @@
 import json
 from random import randint, shuffle
-from flask import url_for, jsonify
+from flask import jsonify
 import matplotlib.pyplot as plt
-import time
 import os
 from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
