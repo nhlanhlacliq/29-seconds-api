@@ -13,6 +13,13 @@ from bson import json_util
 client = MongoClient("mongodb+srv://admin:octopus@29seconds.s8flw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db=client["anime_db"]
 
+def get_collections():
+    collection_list = []
+    collection = db.collection_names(include_system_collections=False)
+    for collect in collection:
+        collection_list.append(collect)
+    return collection_list
+
 # return random entry from database
 def read_random(category, difficulty_lvl, page_url):
     database = []
