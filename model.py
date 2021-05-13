@@ -1,8 +1,7 @@
 import json
 from random import randint, shuffle
-from flask import url_for, jsonify
+from flask import jsonify
 import matplotlib.pyplot as plt
-import time
 import os
 from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
@@ -14,8 +13,15 @@ from bson import json_util
 client = MongoClient("mongodb+srv://admin:octopus@29seconds.s8flw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db=client["anime_db"]
 
+def get_collections():
+    collection_list = []
+    collection = db.collection_names(include_system_collections=False)
+    for collect in collection:
+        collection_list.append(collect)
+    return collection_list
+
 # return random entry from database
-def read_random(category, difficulty, url_root):
+def read_random(category, difficulty_lvl, page_url):
     database = []
     collection=db[category]
     results = collection.find()
@@ -23,23 +29,23 @@ def read_random(category, difficulty, url_root):
         database.append(result)
     # choose random selection from data
     shuffle(database)
-    data_random = database[randint(0,len(database)-1)]
-    data_random["category"] = category
-    data_random["choices"] = add_choices(data_random)
-    data_random["image"] = generate_image(data_random, difficulty, url_root)
-    return jsonify(json.loads(json_util.dumps(data_random)))
+    data_object = database[randint(0,len(database)-1)]
+    data_object["category"] = category
+    data_object["choices"] = add_choices(data_object)
+    data_object["image"] = generate_image(data_object, difficulty_lvl, page_url)
+    return jsonify(json.loads(json_util.dumps(data_object)))
 
 # insert new data to mongo db
 def create(category, answer, question):
-    data = {"question":question,
+    data_object = {"question":question,
             "answer":answer}
     # if it already exists, exit function. else insert into db.
     collection=db[category]
-    results = collection.find(data)
+    results = collection.find(data_object)
     for result in results:
         if result["answer"] == answer:
             return
-    return collection.insert_one(data)        
+    return collection.insert_one(data_object)        
 
 # Return data from mongo db
 def read_all(categories):
@@ -51,66 +57,63 @@ def read_all(categories):
             database.append(result)
     return jsonify(json.loads(json_util.dumps(database)))
 
-# Generates and stores a wordcloud from question. return image url
-def generate_image(data, difficulty, url_root):
-    answer = data["answer"]
-    question = data["question"]
-    category = data["category"]
-    difficulty = int(difficulty)
+# Generates and store wordcloud image from question. returns image url
+def generate_image(data_object, difficulty_lvl, page_url):
+    answer = data_object["answer"]
+    question = data_object["question"]
+    category = data_object["category"]
+    difficulty_lvl = int(difficulty_lvl)
 
-    # Make list of words in the question. dont add word if its a stop word..
+    # Make list of words in the question excluding stop words.
     words_in_question = [word for word in word_tokenize(question) if word not in STOPWORDS]
-    words_freq_dist = FreqDist(words_in_question)
+    freq_dist = FreqDist(words_in_question)
 
-    # remove x = {difficulty level} most repeated words, add to clues list
-    for i in range(difficulty):
-        words_freq_dist.pop(words_freq_dist.max())
-      
-    # adjusted question is question without x most repeated words 
-    adjusted_question = ''
-    for word in words_freq_dist.keys():
-        adjusted_question += word + ' '
+    # remove {difficulty_lvl} most repeated words in question, add to removed list
+    removed = []
+    for i in range(difficulty_lvl):
+        removed.append(freq_dist.pop(freq_dist.max()))
+    temp_question = ''
+    for word in freq_dist.keys():
+        temp_question += f"{word} "
+    question = temp_question
 
-    # generate wordcloud from adjusted question
+    # generate wordcloud using words in question
     wc_rand_state = randint(7, 9)
     wc = WordCloud(max_words=500,relative_scaling=0.5,
                   background_color='black',stopwords=STOPWORDS,
                   margin=2,random_state=wc_rand_state,contour_width=0.5,
                   contour_color='white', colormap='Accent')
-    wc.generate(adjusted_question)
+    wc.generate(question)
     colors = wc.to_array()
-    # plotting frequency distribution of words in question.. Uncomment to verify..
-    # words_freq_dist.plot(15, linestyle='-', title="FreqDist of words")
-    # plt.legend()
 
-    # save wordcloud image, return link 
-    plt.ion()
+    # prepare plot 
+    # plt.ion()
     plt.figure()
     plt.title(f"Which {category} is this?\n", fontsize=20, color='black')
     plt.imshow(colors, interpolation="bilinear")
     plt.axis('off')
-
-    filename = f"./static/{answer}{difficulty}.png"
-    filename = filename.replace(" ","")
-    # save image else return existing one if it already exists
-    if not os.path.exists(filename):
-        plt.savefig(filename, dpi=300, bbox_inches='tight')
-    url = url_root + filename[2:]
+    # generate image name
+    image = f"./static/{answer}{difficulty_lvl}.png"
+    image = image.replace(" ","")
+    # save plot as image else return existing image (same answer and difficulty level)
+    if not os.path.exists(image):
+        plt.savefig(image, dpi=300, bbox_inches='tight')
+    url = page_url + image[2:]
 
     return url
 
 # Add other answers within same category
-def add_choices(data):
+def add_choices(data_object):
     choices = []
     database = []
-    collection=db[data["category"]]
+    collection=db[data_object["category"]]
     results = collection.find()
     for result in results:
         database.append(result["answer"])
     shuffle(database)    
     while len(choices) < 3:
         random_choice = database[randint(0,len(database)-1)]
-        if (random_choice != data["answer"]) and (random_choice not in choices):
+        if (random_choice != data_object["answer"]) and (random_choice not in choices):
             choices.append(random_choice)
     
     return choices

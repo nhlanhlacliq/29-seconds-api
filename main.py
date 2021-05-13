@@ -1,9 +1,10 @@
 from flask import Flask, render_template, abort, url_for, request, redirect
-from model import read_random, read_all, create
+from model import read_random, read_all, create, get_collections
 from wiki_api import WikiPage
 
 app = Flask(__name__)
-categories = ['anime']
+
+categories = get_collections()
 
 @app.route('/')
 def index():
