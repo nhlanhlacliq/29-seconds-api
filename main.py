@@ -5,7 +5,6 @@ from wiki_api import WikiPage
 app = Flask(__name__)
 
 categories = get_collections()
-print(categories)
 
 @app.route('/')
 def index():
