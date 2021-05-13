@@ -113,7 +113,7 @@ def add_choices(data_object):
     shuffle(database)    
     while len(choices) < 3:
         random_choice = database[randint(0,len(database)-1)]
-        if (random_choice != data["answer"]) and (random_choice not in choices):
+        if (random_choice != data_object["answer"]) and (random_choice not in choices):
             choices.append(random_choice)
     
     return choices
