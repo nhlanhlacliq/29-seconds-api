@@ -10,7 +10,7 @@ from bson import json_util
 from random import randint, shuffle
 
 # connect to MongoDB
-client = MongoClient("mongodb+srv://admin:octopus@29seconds.s8flw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+client = MongoClient("mongodb+sr://admin:octopus@29seconds.s8flw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db=client["anime_db"]
 
 def get_collections():
