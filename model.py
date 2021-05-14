@@ -1,13 +1,13 @@
-import json
-from random import randint, shuffle
 from flask import jsonify
+import json
 import matplotlib.pyplot as plt
-import os
 from nltk.probability import FreqDist
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud, STOPWORDS
+import os
 from pymongo import MongoClient
 from bson import json_util
+from random import randint, shuffle
 
 # connect to MongoDB
 client = MongoClient("mongodb+srv://admin:octopus@29seconds.s8flw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
