@@ -11,7 +11,7 @@ from random import randint, shuffle
 
 # connect to MongoDB
 client = MongoClient("mongodb+srv://admin:octopus@29seconds.s8flw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-db=client["anime_db"]
+db=client["29_db"]
 
 def get_collections():
     collection_list = []
