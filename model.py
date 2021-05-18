@@ -87,7 +87,6 @@ def generate_image(data_object, difficulty_lvl, page_url):
     colors = wc.to_array()
 
     # prepare plot 
-    # plt.ion()
     plt.figure()
     plt.title(f"Which {category} is this?\n", fontsize=20, color='black')
     plt.imshow(colors, interpolation="bilinear")
