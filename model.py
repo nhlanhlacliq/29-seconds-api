@@ -18,6 +18,7 @@ def get_collections():
     collection = db.collection_names(include_system_collections=False)
     for collect in collection:
         collection_list.append(collect)
+    
     return collection_list
 
 # return random entry from database
@@ -33,6 +34,7 @@ def read_random(category, difficulty_lvl, page_url):
     data_object["category"] = category
     data_object["choices"] = add_choices(data_object)
     data_object["image"] = generate_image(data_object, difficulty_lvl, page_url)
+    
     return jsonify(json.loads(json_util.dumps(data_object)))
 
 # insert new data to mongo db
@@ -45,6 +47,7 @@ def create(category, answer, question):
     for result in results:
         if result["answer"] == answer:
             return
+
     return collection.insert_one(data_object)        
 
 # Return data from mongo db
@@ -55,6 +58,7 @@ def read_all(categories):
         results = collection.find()
         for result in results:
             database.append(result)
+
     return jsonify(json.loads(json_util.dumps(database)))
 
 # Generates and store wordcloud image from question. returns image url
