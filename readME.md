@@ -1,3 +1,4 @@
+###
 https://api-29-seconds.herokuapp.com/api
 
     GET request returns a simple page with a difficulty level and category selector.
@@ -6,17 +7,17 @@ https://api-29-seconds.herokuapp.com/api
         returns json data from a randomly chosen show from the category.
         The image generated is dependent on the difficulty level.
 
-
+###
 https://api-29-seconds.herokuapp.com/api/view
     
     Returns json data of all the shows (question and answer) as stored in the database
 
-
+###
 https://api-29-seconds.herokuapp.com/api/view/<category>
     
     Returns json data of all the shows in the specified category as stored in the database
 
-
+###
 https://api-29-seconds.herokuapp.com/api/add
     
     GET request returns a simple page with category selector and a search box 
@@ -28,7 +29,7 @@ https://api-29-seconds.herokuapp.com/api/add
     the correct text (Manual search on Wikipedia) in the url field, and then
     clicking on the confirm button.
 
-
+###
 // TO DO: //
 *Fix above mentioned workaround.
 *Return render template for error/success when using the add endpoint.
