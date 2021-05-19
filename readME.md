@@ -9,9 +9,21 @@ https://api-29-seconds.herokuapp.com/api
 
 https://api-29-seconds.herokuapp.com/api/view
     
-    Returns a json data of all the shows (question and answer) as stored in the database
+    Returns json data of all the shows (question and answer) as stored in the database
 
 
 https://api-29-seconds.herokuapp.com/api/view/<category>
     
-    Returns a json data of all the shows in the specified category as stored in the database
+    Returns json data of all the shows in the specified category as stored in the database
+
+
+https://api-29-seconds.herokuapp.com/api/add
+    
+    GET request returns a simple page with category selector and a search box 
+    to add the search term(show) into the category.
+    Uses the Wikipedia API to retrive information on the search term.
+    
+    *Does not always work 100% (Atleast 85% of the time)
+    *Current workaround is replacing the text received from the Wiki api with 
+    the correct text (Manual search on Wikipedia) in the url field, and then
+    clicking on the confirm button.
