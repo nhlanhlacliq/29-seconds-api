@@ -27,3 +27,8 @@ https://api-29-seconds.herokuapp.com/api/add
     *Current workaround is replacing the text received from the Wiki api with 
     the correct text (Manual search on Wikipedia) in the url field, and then
     clicking on the confirm button.
+
+// TO DO: //
+*Fix above mentioned workaround.
+*Return render template for error/success when using the add endpoint.
+*Add links to other endpoints on main page.
