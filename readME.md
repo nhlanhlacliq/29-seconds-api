@@ -10,3 +10,8 @@ https://api-29-seconds.herokuapp.com/api
 https://api-29-seconds.herokuapp.com/api/view
     
     Returns a json data of all the shows (question and answer) as stored in the database
+
+
+https://api-29-seconds.herokuapp.com/api/view/<category>
+    
+    Returns a json data of all the shows in the specified category as stored in the database
