@@ -1,4 +1,4 @@
-https://api29seconds.herokuapp.com/api
+https://api-29-seconds.herokuapp.com/api
 
     GET request returns a simple page with a difficulty level and category selector.
 
@@ -6,3 +6,7 @@ https://api29seconds.herokuapp.com/api
         returns json data from a randomly chosen show from the category.
         The image generated is dependent on the difficulty level.
 
+
+https://api-29-seconds.herokuapp.com/api/view
+    
+    Returns a json data of all the shows (question and answer) as stored in the database
