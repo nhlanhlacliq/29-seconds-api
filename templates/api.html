@@ -20,11 +20,14 @@
         
         <button type="submit">Submit</button>
     </form>
-    <a href="{{ url_for('add')}}">Add a show</a>
-    <a href="https://api-29-seconds.herokuapp.com/view">View database as JSON</a>
+    <h4>LINKS</h4>
     <br>
-    <a href="https://api-29-seconds.herokuapp.com/view/anime">https://api-29-seconds.herokuapp.com/view/anime</a>
+    <a href="{{ url_for('add')}}">Add a show</a>
+    <br>
+    <a href="https://api-29-seconds.herokuapp.com/api/view">View database as JSON</a>
+    <br>
     <p>replace 'anime' with available categories for specific category json database</p>
+    <a href="https://api-29-seconds.herokuapp.com/api/view/anime">https://api-29-seconds.herokuapp.com/api/view/anime</a>
 
 
 {% endblock %}
