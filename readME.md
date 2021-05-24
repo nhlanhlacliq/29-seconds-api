@@ -34,3 +34,4 @@ https://api-29-seconds.herokuapp.com/api/add
 *Fix above mentioned workaround.
 *Return render template for error/success when using the add endpoint.
 *Add links to other endpoints on main page.
+- Links added
