@@ -9,4 +9,3 @@ db = []
 def index():
     return db
 
-app.run()
