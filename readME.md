@@ -1,3 +1,11 @@
+A Python REST API. It uses the wikipedia API to get a summary (e.g. A book). Python's NLTK and Worcloud modules are then used to generate a wordcloud of the summary (removing the most repeated words - this is a difficult level setting you add on the post request).
+
+The data is stored and retrieved from MongoDB.
+The generated wordcloud is returned along with the summaries title (e.g. The book's name) and a few other incorrect titles. 
+
+This is built for a game in which the player guesses the correct title based on the contents of the wordcloud.
+The worldclouds are ssentially limited to whatever data can be retrieved from wikipedia.
+
 ###
 https://api-29-seconds.herokuapp.com/api
 
